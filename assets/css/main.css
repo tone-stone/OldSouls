@@ -91,7 +91,7 @@ h6 {
 ------------------------------*/
 .php-email-form .error-message {
   display: none;
-  background: #df1529;
+  background: #ffffff;
   color: #ffffff;
   text-align: left;
   padding: 15px;
@@ -1026,7 +1026,7 @@ section,
 # About Section
 --------------------------------------------------------------*/
 .about {
-  background: url("../img/about-bg.jpg") center center;
+  background: url("../img/fondo2.jpg") center center;
   background-size: cover;
   position: relative;
   padding: 80px 0;
@@ -1287,7 +1287,7 @@ section,
   }
 
   .specials .nav-link.active {
-    color: var(--accent-color);
+    color: var(--contrast-color);
     background: var(--accent-color);
   }
 }
