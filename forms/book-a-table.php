@@ -1,45 +1,39 @@
 <?php
-  /**
-  * Requires the "PHP Email Form" library
-  * The "PHP Email Form" library is available only in the pro version of the template
-  * The library should be uploaded to: vendor/php-email-form/php-email-form.php
-  * For more info and help: https://bootstrapmade.com/php-email-form/
-  */
+// Reemplaza con tu dirección de correo electrónico real
+$receiving_email_address = 'oldsoulsrestaurante@gmail.com';
 
-  // Replace contact@example.com with your real receiving email address
-  $receiving_email_address = 'contact@example.com';
+// Verifica si el método de la solicitud es POST
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $name = htmlspecialchars(trim($_POST['name']));
+    $email = htmlspecialchars(trim($_POST['email']));
+    $phone = htmlspecialchars(trim($_POST['phone']));
+    $date = htmlspecialchars(trim($_POST['date']));
+    $time = htmlspecialchars(trim($_POST['time']));
+    $people = htmlspecialchars(trim($_POST['people']));
+    $message = htmlspecialchars(trim($_POST['message']));
 
-  if( file_exists($php_email_form = '../assets/vendor/php-email-form/php-email-form.php' )) {
-    include( $php_email_form );
-  } else {
-    die( 'Unable to load the "PHP Email Form" Library!');
-  }
+    $subject = "Reservacion de Mesa desde la Pagina WEB OldSoulsRestaurante";
 
-  $book_a_table = new PHP_Email_Form;
-  $book_a_table->ajax = true;
-  
-  $book_a_table->to = $receiving_email_address;
-  $book_a_table->from_name = $_POST['name'];
-  $book_a_table->from_email = $_POST['email'];
-  $book_a_table->subject = "New table booking request from the website";
+    $body = "Name: $name\n";
+    $body .= "Email: $email\n";
+    $body .= "Phone: $phone\n";
+    $body .= "Date: $date\n";
+    $body .= "Time: $time\n";
+    $body .= "# of people: $people\n\n";
+    $body .= "Message:\n$message\n";
 
-  // Uncomment below code if you want to use SMTP to send emails. You need to enter your correct SMTP credentials
-  /*
-  $book_a_table->smtp = array(
-    'host' => 'example.com',
-    'username' => 'example',
-    'password' => 'pass',
-    'port' => '587'
-  );
-  */
+    $headers = "From: $email\r\n";
+    $headers .= "Reply-To: $email\r\n";
+    $headers .= "X-Mailer: PHP/" . phpversion();
 
-  $book_a_table->add_message( $_POST['name'], 'Name');
-  $book_a_table->add_message( $_POST['email'], 'Email');
-  $book_a_table->add_message( $_POST['phone'], 'Phone', 4);
-  $book_a_table->add_message( $_POST['date'], 'Date', 4);
-  $book_a_table->add_message( $_POST['time'], 'Time', 4);
-  $book_a_table->add_message( $_POST['people'], '# of people', 1);
-  $book_a_table->add_message( $_POST['message'], 'Message');
-
-  echo $book_a_table->send();
+    if (mail($receiving_email_address, $subject, $body, $headers)) {
+        echo "Su solicitud de reservacion fue enviada. Le devolveremos la llamada o le
+              enviaremos un correo electrónico para confirmar su
+              reservacion. ¡Gracias!!";
+    } else {
+        echo "Hubo error al enviar la peticion, por favor intente de nuevo.";
+    }
+} else {
+    echo "Hubo un error con tu registro, por favor intentar de nuevo.";
+}
 ?>
